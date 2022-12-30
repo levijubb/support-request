@@ -4,6 +4,8 @@ import { env } from '$env/dynamic/private';
 export async function addItem(name: string, email: string, description: string) {
   const client = new Client({ auth: env.NOTION_KEY })
   const databaseId = env.NOTION_DATABASE_ID as string
+
+  console.log("DBID", databaseId)
   try {
     const response = await client.pages.create({
       parent: { database_id: databaseId },

@@ -10,6 +10,7 @@ export const actions: Actions = {
     const email = data.get('email') as string;
     const description = data.get('description') as string
 
+    console.log("DATA", firstName, lastName, email, description)
     addItem(`${firstName} ${lastName}`, email, description)
   }
 };
