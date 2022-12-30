@@ -1,7 +1,8 @@
-import type { Client } from "@notionhq/client"
+import { Client } from "@notionhq/client"
 import { env } from '$env/dynamic/private';
 
-export async function addItem(client: Client, name: string, email: string, description: string) {
+export async function addItem(name: string, email: string, description: string) {
+  const client = new Client({ auth: env.NOTION_KEY })
   const databaseId = env.NOTION_DATABASE_ID as string
   try {
     const response = await client.pages.create({
@@ -43,8 +44,11 @@ export async function addItem(client: Client, name: string, email: string, descr
       ]
     })
 
-    console.log(response)
-    console.log("Success! Entry added.")
+    console.log(`ADDED TICKET (${response.id}) BY ${email}`)
+
+    return {
+      status: 200,
+    }
   } catch (err: any) {
     console.error(err.body)
   }
