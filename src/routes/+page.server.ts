@@ -11,6 +11,13 @@ export const actions: Actions = {
     const description = data.get('description') as string
 
     console.log("DATA", firstName, lastName, email, description)
-    addItem(`${firstName} ${lastName}`, email, description)
+    await addItem(`${firstName} ${lastName}`, email, description)
+
+    return {
+      status: 200,
+      body: {
+        message: 'Success'
+      }
+    }
   }
 };

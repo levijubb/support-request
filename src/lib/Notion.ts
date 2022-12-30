@@ -47,11 +47,7 @@ export async function addItem(name: string, email: string, description: string) 
     })
 
     console.log(`ADDED TICKET (${response.id}) BY ${email}`)
-
-    return {
-      status: 200,
-    }
   } catch (err: any) {
-    console.error(err.body)
+    console.error(err)
   }
 }
