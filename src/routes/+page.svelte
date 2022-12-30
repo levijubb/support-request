@@ -1,9 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
-	import { fly } from 'svelte/transition';
+	import { fly, fade } from 'svelte/transition';
 	import { backIn } from 'svelte/easing';
 
-	let animate = true;
+	let formShowing = true;
+	let loading = false;
 </script>
 
 <svelte:head>
@@ -19,7 +20,7 @@
 		</div>
 		<p>Please fill in the form below. We'll get in touch shortly!</p>
 	</section>
-	{#if animate}
+	{#if formShowing}
 		<article transition:fly={{ x: 1000, easing: backIn }}>
 			<form
 				method="POST"
@@ -29,11 +30,13 @@
 					// `action` is the URL to which the form is posted
 					// `cancel()` will prevent the submission
 					console.log('hello');
-					animate = false;
+					formShowing = false;
+					loading = true;
 
 					return async ({ result, update }) => {
 						// `result` is an `ActionResult` object
 						// `update` is a function which triggers the logic that would be triggered if this callback wasn't set
+						loading = false;
 					};
 				}}
 			>
@@ -67,11 +70,21 @@
 				<button type="submit">Submit</button>
 			</form>
 		</article>
+	{:else}
+		<div aria-busy={loading}>
+			{#if !loading}
+				<article transition:fade={{ delay: 400 }}>
+					<h2>Thank you!</h2>
+					<p>We'll get back to you shortly.</p>
+				</article>
+			{/if}
+		</div>
 	{/if}
 </main>
 
 <style>
-	h2 {
+	h2,
+	p {
 		margin-bottom: 0;
 	}
 
