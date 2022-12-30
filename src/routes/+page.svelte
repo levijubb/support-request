@@ -24,18 +24,11 @@
 		<article transition:fly={{ x: 1000, easing: backIn }}>
 			<form
 				method="POST"
-				use:enhance={({ form, data, action, cancel }) => {
-					// `form` is the `<form>` element
-					// `data` is its `FormData` object
-					// `action` is the URL to which the form is posted
-					// `cancel()` will prevent the submission
-					console.log('hello');
+				use:enhance={() => {
 					formShowing = false;
 					loading = true;
 
-					return async ({ result, update }) => {
-						// `result` is an `ActionResult` object
-						// `update` is a function which triggers the logic that would be triggered if this callback wasn't set
+					return async ({ result }) => {
 						loading = false;
 					};
 				}}
