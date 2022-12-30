@@ -1,0 +1,99 @@
+<script>
+	import { enhance } from '$app/forms';
+	import { fly } from 'svelte/transition';
+	import { backIn } from 'svelte/easing';
+
+	let animate = true;
+</script>
+
+<svelte:head>
+	<title>CPRO Support</title>
+	<meta name="description" content="Submit a support request" />
+</svelte:head>
+
+<main class="container">
+	<section>
+		<div class="logo-header">
+			<img src="/logo.png" alt="Logo" />
+			<h2>ompetition Pro Support</h2>
+		</div>
+		<p>Please fill in the form below. We'll get in touch shortly!</p>
+	</section>
+	{#if animate}
+		<article transition:fly={{ x: 1000, easing: backIn }}>
+			<form
+				method="POST"
+				use:enhance={({ form, data, action, cancel }) => {
+					// `form` is the `<form>` element
+					// `data` is its `FormData` object
+					// `action` is the URL to which the form is posted
+					// `cancel()` will prevent the submission
+					console.log('hello');
+					animate = false;
+
+					return async ({ result, update }) => {
+						// `result` is an `ActionResult` object
+						// `update` is a function which triggers the logic that would be triggered if this callback wasn't set
+					};
+				}}
+			>
+				<div class="grid">
+					<label for="firstname">
+						First name <span>*</span>
+						<input type="text" id="firstname" name="firstname" required />
+					</label>
+
+					<label for="lastname">
+						Last name
+						<input type="text" id="lastname" name="lastname" />
+					</label>
+				</div>
+
+				<label for="email"
+					>Email address<span>*</span>
+					<input type="email" id="email" name="email" required />
+				</label>
+
+				<label for="description">
+					Description<span>*</span>
+					<textarea
+						placeholder="Please give us your feedback..."
+						id="description"
+						name="description"
+						required
+					/>
+				</label>
+
+				<button type="submit">Submit</button>
+			</form>
+		</article>
+	{/if}
+</main>
+
+<style>
+	h2 {
+		margin-bottom: 0;
+	}
+
+	main {
+		margin-top: 2rem;
+	}
+
+	span {
+		color: red;
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	.logo-header {
+		display: flex;
+		align-items: center;
+	}
+
+	.logo-header img {
+		width: 50px;
+		height: 50px;
+	}
+</style>
